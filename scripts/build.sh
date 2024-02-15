@@ -287,6 +287,7 @@ end_travis_fold syntax
 print_section_results "Syntax tests" $syntax_exit_value
 
 # Perform style tests.
+echo "$commit_range_start"
 start_travis_fold style
 echo "Running style tests..."
 
