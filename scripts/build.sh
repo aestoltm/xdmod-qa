@@ -287,7 +287,6 @@ end_travis_fold syntax
 print_section_results "Syntax tests" $syntax_exit_value
 
 # Perform style tests.
-echo "$commit_range_start"
 start_travis_fold style
 echo "Running style tests..."
 
@@ -333,6 +332,7 @@ for file in "${js_files_changed[@]}"; do
     eslint_rule_override='{no-underscore-dangle: 0, indent: 0}'
     eslint $eslint_plugins --rule "$eslint_rule_override" "$file" -f json > "$file.lint.new.json"
     if [ $? != 0 ]; then
+        echo "Commit: $commit_range_start, File: $file"
         git show "$commit_range_start:$file" | eslint $eslint_plugins --rule "$eslint_rule_override" --stdin --stdin-filename "$file" -f json > "$file.lint.orig.json"
         lint-diff "$file.lint.orig.json" "$file.lint.new.json"
         if [ $? != 0 ]; then
